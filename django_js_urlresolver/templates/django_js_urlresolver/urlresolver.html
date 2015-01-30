@@ -1,0 +1,12 @@
+{% load staticfiles %}
+
+{% if autocsrf %}
+    {% csrf_token %}
+    <script src="{% static 'django_js_urlresolver/csrf.js' %}"></script>
+{% endif %}
+
+<script>
+    var djangoURLReverseAddress = "{% url 'django_js_urlresolver:urlreverse' %}";
+    var djangoURLResolveAddress = "{% url 'django_js_urlresolver:urlresolve' %}";
+</script>
+<script src="{% static 'django_js_urlresolver/urlresolver.js' %}"></script>
