@@ -24,28 +24,33 @@ Usage
 
 `djangoJSURLReverse` and `djangoJSURLResolve` are global functions which make
 async query towards `reverse` and `resolve` Django functions. Return nothing,
-but run callbacks on success and fail.
+but run callbacks on success and error.
 
-    var urlparams = {
-            viewname: 'name-of-url-to-redirect',
-            kwargs: {
-                param1: 'value1',
-                param2: 'value2'
-            }
-        };
-    function success(url) {
-        window.location.href = url;
-    }
-    function error() {
-        alert('Oops...');
-    }
-    djangoJSURLReverse(urlparams, success, error);
+```js
+var urlparams = {
+        viewname: 'name-of-url-to-redirect',
+        kwargs: {
+            param1: 'value1',
+            param2: 'value2'
+        }
+    };
+function success(url) {
+    window.location.href = url;
+}
+function error() {
+    alert('Oops...');
+}
+djangoJSURLReverse(urlparams, success, error);
 
-    function success(data) {
-        console.log(data['viewname']);
-        console.log(data['kwargs']);
-    }
-    function error() {
-        alert('Oops...');
-    }
-    djangoJSURLResolve(window.location.href, success, error);
+// ----------------------------------------- //
+
+var url = window.location.href;
+function success(data) {
+    console.log(data['viewname']);
+    console.log(data['kwargs']);
+}
+function error() {
+    alert('Oops...');
+}
+djangoJSURLResolve(url, success, error);
+```

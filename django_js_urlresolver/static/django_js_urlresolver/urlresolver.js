@@ -1,15 +1,13 @@
 ;
 var djangoJSURLReverse,
-    djangoJSURLResolve,
-    djangoURLReverseAddress = djangoURLReverseAddress,
-    djangoURLResolveAddress = djangoURLResolveAddress;
+    djangoJSURLResolve;
 
 (function ($) {
     'use strict';
 
     djangoJSURLReverse = function (urlparams, success, error) {
         $.ajax({
-            url: djangoURLReverseAddress,
+            url: _django_js_urlresolver_urlreverse_url,  // see urlresolver.html
             type: 'POST',
             data: JSON.stringify(urlparams),
             dataType: 'json',
@@ -24,7 +22,7 @@ var djangoJSURLReverse,
 
     djangoJSURLResolve = function (rawurl, success, error) {
         $.ajax({
-            url: djangoURLResolveAddress,
+            url: _django_js_urlresolver_urlresolve_url,  // see urlresolver.html
             type: 'POST',
             data: JSON.stringify({url: rawurl}),
             dataType: 'json',
