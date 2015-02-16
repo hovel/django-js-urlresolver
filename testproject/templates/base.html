@@ -1,0 +1,12 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <script src="{% static 'jquery-2.1.3.min.js' %}"></script>
+    {% include 'js_urlresolver/js_urlresolver.html' with autocsrf=True %}
+</body>
+</html>

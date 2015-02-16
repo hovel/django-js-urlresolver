@@ -1,0 +1,14 @@
+machine:
+  java:
+    version: openjdk7
+  environment:
+    SELENIUM_TEST_TYPE: local
+  hosts:
+    local: 127.0.0.1
+dependencies:
+  pre:
+    - pip install -U django selenium --exists-action=w
+test:
+  override:
+    - ./runtests.sh $CIRCLE_NODE_INDEX:
+        parallel: true
