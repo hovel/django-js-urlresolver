@@ -3,11 +3,12 @@ from __future__ import unicode_literals
 import json
 import traceback
 
-from django.core.exceptions import PermissionDenied
 from importlib import import_module
+
+from django.core.exceptions import PermissionDenied
 from django.conf import settings
-from django.core.urlresolvers import reverse, NoReverseMatch, resolve, \
-    Resolver404, get_urlconf
+from django.core import urlresolvers
+from django.core.urlresolvers import NoReverseMatch, Resolver404, get_urlconf
 from django.http.response import JsonResponse, HttpResponse
 
 from django.utils.six.moves.urllib.parse import urlparse
@@ -15,18 +16,18 @@ from django.utils.six.moves.urllib.parse import urlparse
 
 def check_permissions(viewname):
     whitelist = getattr(
-        import_module(get_urlconf()), 'DJANGO_JS_URLRESOLVER_WHITELIST', []
+        import_module(get_urlconf()), 'JS_URLRESOLVER_WHITELIST', []
     )
     if not whitelist or all(pattern != viewname for pattern in whitelist):
         raise PermissionDenied()
 
 
-def urlreverse(request):
+def reverse(request):
     try:
         urlparams = json.loads(request.body)
         viewname = urlparams.get('viewname') or urlparams.get('view_name')
         check_permissions(viewname)
-        url = reverse(
+        url = urlresolvers.reverse(
             viewname=viewname,
             args=urlparams.get('args'),
             kwargs=urlparams.get('kwargs'),
@@ -41,10 +42,10 @@ def urlreverse(request):
             return HttpResponse()
 
 
-def urlresolve(request):
+def resolve(request):
     try:
         url = urlparse(json.loads(request.body).get('url'))
-        resolver_match = resolve(url.path)
+        resolver_match = urlresolvers.resolve(url.path)
         viewname = resolver_match.view_name
         check_permissions(viewname)
         urlparams = {

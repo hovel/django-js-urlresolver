@@ -9,5 +9,5 @@ setup(
     author='',
     author_email='',
     license='',
-    packages=['django_js_urlresolver'],
+    packages=['js_urlresolver'],
 )

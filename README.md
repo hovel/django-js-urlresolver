@@ -1,30 +1,34 @@
 Installation
 ============
 
-Add `django_js_urlresolver` into INSTALLED_APPS:
+Add `js_urlresolver` into INSTALLED_APPS:
 
     INSTALLED_APPS = (
         ....
-        'django_js_urlresolver',
+        'js_urlresolver',
     )
 
 Add this into project's urls.py:
 
-    url(r'^urlresolver/', include('django_js_urlresolver.urls', namespace='django_js_urlresolver')),
+    url(r'^js_urlresolver/', include('js_urlresolver.urls', namespace='js_urlresolver')),
 
 Include static template into base template right after jQuery (remove
 `with autocsrf=True` if you don't want to enable automatic CSRF protection):
 
     <script src="{% static 'jquery.min.js' %}"></script>
-    {% include 'django_js_urlresolver/urlresolver.html' with autocsrf=True %}
+    {% include 'js_urlresolver/js_urlresolver.html' with autocsrf=True %}
 
 
 Usage
 =====
 
-`djangoJSURLReverse` and `djangoJSURLResolve` are global functions which make
+`reverseURL` and `resolveURL` are global functions which make
 async query towards `reverse` and `resolve` Django functions. Return nothing,
 but run callbacks on success and error.
+
+To use them, add `JS_URLRESOLVER_WHITELIST = []` into project's urls.py and
+fill it with the names of the views you want to reverse/resolve.
+DO NOT ADD ALL VIEWS, because it can lead to security problems.
 
 ```js
 var urlparams = {
@@ -40,7 +44,7 @@ function success(url) {
 function error() {
     alert('Oops...');
 }
-djangoJSURLReverse(urlparams, success, error);
+reverseURL(urlparams, success, error);
 
 // ----------------------------------------- //
 
@@ -52,5 +56,5 @@ function success(data) {
 function error() {
     alert('Oops...');
 }
-djangoJSURLResolve(url, success, error);
+resolveURL(url, success, error);
 ```
