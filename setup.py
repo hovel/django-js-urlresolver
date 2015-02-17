@@ -11,7 +11,7 @@ setup(
     version='0.1',
     packages=['js_urlresolver'],
     include_package_data=True,
-    package_data={'js_urlresolver': ['static/*', 'templates/*']},
+    package_data={'js_urlresolver': ['static', 'templates']},
     license='',
     description='Simple access to Django\'s resolve and reverse functions in JS',
     long_description=README,
