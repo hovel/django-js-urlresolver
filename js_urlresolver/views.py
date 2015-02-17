@@ -3,21 +3,17 @@ from __future__ import unicode_literals
 import json
 import traceback
 
-from importlib import import_module
-
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from django.core import urlresolvers
-from django.core.urlresolvers import NoReverseMatch, Resolver404, get_urlconf
+from django.core.urlresolvers import NoReverseMatch, Resolver404
 from django.http.response import JsonResponse, HttpResponse
 
 from django.utils.six.moves.urllib.parse import urlparse
 
 
 def check_permissions(viewname):
-    whitelist = getattr(
-        import_module(get_urlconf()), 'JS_URLRESOLVER_WHITELIST', []
-    )
+    whitelist = getattr(settings, 'JS_URLRESOLVER_WHITELIST', [])
     if not whitelist or all(pattern != viewname for pattern in whitelist):
         raise PermissionDenied()
 

@@ -17,5 +17,3 @@ urlpatterns = patterns('',
     url(r'^test/(?P<test_id>\d+)/$',
         TemplateView.as_view(template_name='base.html'), name='test'),
 )
-
-JS_URLRESOLVER_WHITELIST = ['home', 'test']

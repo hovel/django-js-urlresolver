@@ -26,8 +26,8 @@ Usage
 async query towards `reverse` and `resolve` Django functions. Return nothing,
 but run callbacks on success and error.
 
-To use them, add `JS_URLRESOLVER_WHITELIST = []` into project's urls.py and
-fill it with the names of the views you want to reverse/resolve.
+To use them, add `JS_URLRESOLVER_WHITELIST = []` into project's settings.py
+and fill it with the names of the views you want to reverse/resolve.
 DO NOT ADD ALL VIEWS, because it can lead to security problems.
 
 ```js
