@@ -1,12 +1,15 @@
-{% load staticfiles %}
+{% load js_urlresolver staticfiles %}
 <!DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>Test page</title>
+    <script>
+        window.JSURLResolverData = '{% js_urlresolver_data %}'
+    </script>
+    <script src="{% static 'js_urlresolver/js_urlresolver.js' %}"></script>
 </head>
 <body>
-    <script src="{% static 'jquery-2.1.3.min.js' %}"></script>
-    {% include 'js_urlresolver/js_urlresolver.html' with autocsrf=True %}
+<h1>Test page</h1>
 </body>
 </html>

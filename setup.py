@@ -8,12 +8,12 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-js-urlresolver',
-    version='0.1',
+    version='1.0',
     packages=['js_urlresolver'],
     include_package_data=True,
-    package_data={'': ['js_urlresolver/static', 'js_urlresolver/templates']},
+    package_data={'': ['js_urlresolver/static']},
     license='',
-    description='Simple access to Django\'s resolve and reverse functions in JS',
+    description='',
     long_description=README,
     url='https://github.com/hovel/django-js-urlresolver',
     author='',
@@ -26,8 +26,11 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.2',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
-
 )

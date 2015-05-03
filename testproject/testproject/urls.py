@@ -1,8 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from django.conf import settings
-from django.conf.urls.static import static
-from django.views.generic.base import TemplateView
+from django.views.generic import TemplateView
 
 urlpatterns = patterns('',
     # Examples:
@@ -10,10 +8,8 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^js_urlresolver/',
-        include('js_urlresolver.urls', namespace='js_urlresolver')),
     url(r'^$',
         TemplateView.as_view(template_name='base.html'), name='home'),
-    url(r'^test/(?P<test_id>\d+)/$',
+    url(r'^test/(?P<test_1>\w+)/(?P<test_2>\w+)/(?P<test_3>\w+)/$',
         TemplateView.as_view(template_name='base.html'), name='test'),
 )

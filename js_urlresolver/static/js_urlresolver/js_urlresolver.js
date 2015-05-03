@@ -1,37 +1,48 @@
-;
-var reverseURL,
-    resolveURL;
+;(function () {
+    if (typeof window.JSURLResolverData != 'string') {
+        console.error('JSURLResolver is not installed properly');
+    }
 
-(function ($) {
-    'use strict';
+    window.JSURLResolver = new function () {
+        var self = this;
+        self.data = JSON.parse(window.JSURLResolverData || '{}');
+        delete window.JSURLResolverData;
 
-    reverseURL = function (urlparams, success, error) {
-        $.ajax({
-            url: _js_urlresolver_reverse,  // see js_urlresolver.html
-            type: 'POST',
-            data: JSON.stringify(urlparams),
-            dataType: 'json',
-            success: function (data) {
-                if (typeof success != 'undefined') success(data['resolved']);
-            },
-            error: function () {
-                if (typeof error != 'undefined') error();
+        self.reverse = function (name, kwargs) {
+            var urldata = self.data[name];
+            if (typeof urldata == 'undefined') {
+                return null;
             }
-        })
-    };
-
-    resolveURL = function (rawurl, success, error) {
-        $.ajax({
-            url: _js_urlresolver_resolve,  // see js_urlresolver.html
-            type: 'POST',
-            data: JSON.stringify({url: rawurl}),
-            dataType: 'json',
-            success: function (data) {
-                if (typeof success != 'undefined') success(data);
-            },
-            error: function () {
-                if (typeof error != 'undefined') error();
+            var url = urldata.replace_pattern;
+            for (var i = 0; i < urldata.kwargs.length; i++) {
+                var kwarg = urldata.kwargs[i];
+                url = url.replace('%(' + kwarg + ')s', kwargs[kwarg]);
             }
-        })
+            var testRegex = new RegExp(urldata.test_pattern);
+            if (testRegex.test(url)) {
+                return url;
+            }
+            return null;
+        };
+
+        self.resolve = function (url) {
+            for (var name in self.data) {
+                if (self.data.hasOwnProperty(name)) {
+                    var urldata = self.data[name],
+                        testRegex = new RegExp(urldata.test_pattern),
+                        matches = url.match(testRegex);
+                    if (matches !== null) {
+                        var filledKwargs = {};
+                        if (urldata.kwargs.length > 0) {
+                            for (var i = 0; i < urldata.kwargs.length; i++) {
+                                filledKwargs[urldata.kwargs[i]] = matches[i + 1];
+                            }
+                        }
+                        return [name, filledKwargs];
+                    }
+                }
+            }
+            return [null, null];
+        };
     };
-})(jQuery);
+})();

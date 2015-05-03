@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import os
-from random import randint
-import time
+import uuid
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.urlresolvers import reverse
 from django.test.utils import override_settings
 from django.utils.encoding import force_text
 
 from selenium import webdriver
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 local_drivers_map = {
@@ -54,24 +52,28 @@ class ClientTest(StaticLiveServerTestCase):
     def tearDown(self):
         self.selenium.quit()
 
-    def test_js_resolver(self):
-        test_id = randint(0, 100)
-        start_url = self.get_url(reverse('test', kwargs={'test_id': test_id}))
-        self.selenium.get(start_url)
+    def test_js_urlresolver(self):
+        self.selenium.get(self.get_url(reverse('home')))
+
         self.selenium.execute_script('''
-            $(function () {
-                resolveURL(window.location.href, function (data) {
-                    var urlparams = {
-                        viewname: data.viewname,
-                        kwargs: {
-                            test_id: Math.round(data.kwargs.test_id * 2)
-                        }
-                    }
-                    reverseURL(urlparams, function (url) {
-                        window.location.href = url;
-                    });
-                });
-            });
+            window.location.href = JSURLResolver.reverse(
+                'test', {'test_3': 13, 'test_1': 11, 'test_2': 12}
+            );
         ''')
-        end_url = self.get_url(reverse('test', kwargs={'test_id': test_id * 2}))
-        self.wait.until(lambda sel: sel.current_url == end_url)
+        url = self.get_url(
+            reverse('test', kwargs={'test_1': 11, 'test_2': 12, 'test_3': 13})
+        )
+        self.wait.until(lambda sel: sel.current_url == url)
+
+        self.selenium.execute_script('''
+            var urldata = JSURLResolver.resolve(window.location.pathname);
+            window.location.href = JSURLResolver.reverse(
+                urldata[0], {'test_2': urldata[1]['test_2'] * 2,
+                             'test_3': urldata[1]['test_3'] * 2,
+                             'test_1': urldata[1]['test_1'] * 2}
+            );
+        ''')
+        url = self.get_url(
+            reverse('test', kwargs={'test_1': 22, 'test_2': 24, 'test_3': 26})
+        )
+        self.wait.until(lambda sel: sel.current_url == url)
