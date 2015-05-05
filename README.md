@@ -22,6 +22,9 @@ Include url "database" and resolver script into the main template:
     </script>
     <script src="{% static 'js_urlresolver/js_urlresolver.js' %}"></script>
 
+If you want to work only with certain urls on current page, simply add them as
+argument for `js_urlresolver_data`. Any iterable and "stringified" 
+comma-separated list (`'name1, name2'`) is supported.
 
 Usage
 =====
