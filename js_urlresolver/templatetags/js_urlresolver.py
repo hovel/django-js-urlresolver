@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from importlib import import_module
 import json
 from django.conf import settings
 from django.core.urlresolvers import get_urlconf, RegexURLResolver, \
     RegexURLPattern
 from django.template import Library
-from django.utils.importlib import import_module
+from django.utils import six
 from django.utils.regex_helper import normalize
 
 
@@ -13,9 +14,14 @@ register = Library()
 
 
 @register.simple_tag()
-def js_urlresolver_data():
-    urls = import_module(get_urlconf())
-    names = getattr(settings, 'JS_URLRESOLVER_NAMES', [])
+def js_urlresolver_data(names=None):
+    if names:
+        if isinstance(names, six.string_types):
+            names = [n.strip() for n in names.split(',')]
+    else:
+        names = getattr(settings, 'JS_URLRESOLVER_NAMES', [])
+    names = list(set(names))
+
     data = {}
 
     def walk_urlpatterns(obj, parents):
@@ -46,6 +52,7 @@ def js_urlresolver_data():
                         'kwargs': kwargs,
                     }
 
+    urls = import_module(get_urlconf(default=settings.ROOT_URLCONF))
     walk_urlpatterns(urls.urlpatterns, ())
 
     return json.dumps(data)
