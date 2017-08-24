@@ -13,18 +13,18 @@ and fill it with the names of the views you want to reverse/resolve.
 DO NOT ADD ALL VIEWS, because it can lead to security problems.
 Namespaces are not supported yet.
 
-
 Include url "database" and resolver script into the main template:
 
     {% load js_urlresolver staticfiles %}
     <script>
-        window.JSURLResolverData = '{% js_urlresolver_data %}'
+        window.JSURLResolverData = '{% js_urlresolver_data %}';
     </script>
     <script src="{% static 'js_urlresolver/js_urlresolver.js' %}"></script>
 
 If you want to work only with certain urls on current page, simply add them as
-argument for `js_urlresolver_data`. Any iterable and "stringified" 
+argument for `js_urlresolver_data`. Any iterable and "stringified"
 comma-separated list (`'name1, name2'`) is supported.
+
 
 Usage
 =====
