@@ -54,7 +54,7 @@ class ClientTest(StaticLiveServerTestCase):
         self.selenium.quit()
 
     def test_js_urlresolver(self):
-        self.selenium.get(self.get_url(reverse('home')))
+        self.selenium.get(self.get_url('/static/js_urlresolver/js_urlresolver.js'))
         print(settings.DEBUG)
         print(self.selenium.page_source.encode("utf-8"))
         self.selenium.execute_script('''
