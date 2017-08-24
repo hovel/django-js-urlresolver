@@ -53,7 +53,7 @@ class ClientTest(StaticLiveServerTestCase):
 
     def test_js_urlresolver(self):
         self.selenium.get(self.get_url(reverse('home')))
-
+        print(self.selenium.page_source.encode("utf-8"))
         self.selenium.execute_script('''
             window.location.href = JSURLResolver.reverse(
                 'test', {'test_3': 13, 'test_1': 11, 'test_2': 12}
