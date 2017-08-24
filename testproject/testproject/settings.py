@@ -70,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'statictv.wsgi.application'
+WSGI_APPLICATION = 'testproject.wsgi.application'
 
 
 # Database
