@@ -7,7 +7,7 @@ machine:
     local: 127.0.0.1
 dependencies:
   pre:
-    - pip install -U django==1.9 selenium --exists-action=w
+    - pip install -U django==1.8 selenium --exists-action=w
 test:
   override:
     - ./runtests.sh $CIRCLE_NODE_INDEX:
