@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import os
-
-from django.conf import settings
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.urlresolvers import reverse
 from django.test.utils import override_settings
@@ -54,9 +52,7 @@ class ClientTest(StaticLiveServerTestCase):
         self.selenium.quit()
 
     def test_js_urlresolver(self):
-        self.selenium.get(self.get_url('/static/js_urlresolver/js_urlresolver.js'))
-        print(settings.DEBUG)
-        print(self.selenium.page_source.encode("utf-8"))
+        self.selenium.get(self.get_url(reverse('home')))
         self.selenium.execute_script('''
             window.location.href = JSURLResolver.reverse(
                 'test', {'test_3': 13, 'test_1': 11, 'test_2': 12}
