@@ -8,6 +8,7 @@ machine:
 dependencies:
   pre:
     - pip install -U django==1.9 selenium --exists-action=w
+    - testproject/manage.py collectstatic
 test:
   override:
     - ./runtests.sh $CIRCLE_NODE_INDEX:
