@@ -8,7 +8,7 @@ from django.core.urlresolvers import get_urlconf, RegexURLResolver, \
 from django.template import Library
 from django.utils import six
 from django.utils.regex_helper import normalize
-
+from django.utils.safestring import mark_safe
 
 register = Library()
 
@@ -55,4 +55,4 @@ def js_urlresolver_data(names=None):
     urls = import_module(get_urlconf(default=settings.ROOT_URLCONF))
     walk_urlpatterns(urls.urlpatterns, ())
 
-    return json.dumps(data)
+    return mark_safe(json.dumps(data))
